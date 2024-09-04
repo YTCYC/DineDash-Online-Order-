@@ -1,0 +1,22 @@
+version: '3.8'
+## use docker to pull a postgreSQL image and run inside a container.
+#  benefit is that we don't need to configure a lot of postgreSQL details
+# in terminal run docker-compose up -d to run the container
+
+services:
+
+
+  db:
+    image: postgres:15.2-alpine
+    environment:
+      POSTGRES_DB: onlineorder
+      POSTGRES_PASSWORD: secret
+      TZ: UTC
+    volumes:
+      - onlineorder-pg-local:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+
+volumes:
+  onlineorder-pg-local:
