@@ -1,0 +1,29 @@
+logging:
+  level:
+    org.apache.coyote.http11.Http11InputBuffer: DEBUG # Incoming HTTP requests, so we can see what's being received on the server side
+    org.springframework.jdbc.datasource.init: DEBUG # 显示database 是否链接成功
+    org.springframework.jdbc.core: DEBUG # add one more logging option so we can see actual DB query being executed in the console
+
+spring:
+  jackson: #specify json 的output 格式
+    default-property-inclusion: non_null
+    property-naming-strategy: SNAKE_CASE
+
+  datasource:
+    url: jdbc:postgresql://${DATABASE_URL:localhost}:5432/onlineorder #检测到端口运作的database docker.yml 定义了这个端口号
+    username: ${DATABASE_USERNAME:postgres} # 之后会在aws设置更加安全的username 这里用environment variables
+    password: ${DATABASE_PASSWORD:secret}
+    driver-class-name: org.postgresql.Driver #驱动 在database里面
+
+  sql:
+    init:
+      mode: ${INIT_DB:always}
+      schema-locations: "classpath:database-init.sql"
+
+  # specify cache properties
+  cache:
+    caffeine:
+      spec: expireAfterWrite=60s
+
+
+
